@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        // Matches the name configured in Jenkins -> Manage Jenkins -> Tools
+        // This MUST match the exact name you set in Jenkins -> Manage Jenkins -> Tools
         maven 'Maven' 
     }
 
@@ -12,33 +12,33 @@ pipeline {
     }
 
     environment {
-        // Global variable accessible in all stages
+        // Global variable for the pipeline
         NEW_VERSION = '1.3.0'
     }
 
     stages {
         stage('Build') {
             steps {
-                echo 'Muhammad Shahzaib (23i-2083) - Lab 12 Build Initiated' [cite: 13]
-                echo "Building version ${NEW_VERSION}" [cite: 619]
-                // Windows-specific execution command
-                bat "mvn -version" [cite: 637]
+                echo 'Muhammad Shahzaib (23i-2083) - Lab 12 Build Initiated'
+                echo "Building version ${NEW_VERSION}"
+                // A safe Windows command to verify the tool works
+                bat "mvn -version"
             }
         }
 
         stage('Test') {
             when {
-                // Evaluates the boolean parameter [cite: 474]
-                expression { params.executeTests } [cite: 692, 694]
+                // Now properly populated to check your parameter
+                expression { params.executeTests }
             }
             steps {
-                echo 'Testing Project...' [cite: 703]
+                echo 'Testing Project...'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying Project...' [cite: 428]
+                echo 'Deploying Project...'
                 echo "Deploying selected version: ${params.VERSION}" 
             }
         }
@@ -46,12 +46,10 @@ pipeline {
 
     post {
         always {
-            // Executes regardless of build status [cite: 444]
-            echo 'Post build condition running' [cite: 445]
+            echo 'Post build condition running'
         }
         failure {
-            // Executes only if a stage fails [cite: 450]
-            echo 'Post action if Build Fails' [cite: 451]
+            echo 'Post action if Build Fails'
         }
     }
 }
